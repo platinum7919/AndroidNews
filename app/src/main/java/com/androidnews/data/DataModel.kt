@@ -1,22 +1,21 @@
 package com.androidnews.data
 
 import com.google.gson.annotations.SerializedName
-import java.util.Collections.addAll
 
 
-class Articles(
-    val queryId : String,
-    var articlesList : List<Article>? = null,
-    var page : Int = 0,
-    var totalPages : Int = 0
-){
-    fun append(articles: Articles) : Articles{
-        if(articles.queryId != queryId){
-            throw IllegalArgumentException("Cannot append articles from different queries")
+class ArticleList(
+    val pageSize: Int,
+    var articlesList: List<Article>? = null,
+    var page: Int = 0,
+    var totalPages: Int = 0
+) {
+    fun append(articleList: ArticleList): ArticleList {
+        if (articleList.pageSize != pageSize) {
+            throw IllegalArgumentException("Cannot append articleList from different queries")
         }
-        if(page + 1 == articles.page) {
-            page = articles.page
-            totalPages = articles.totalPages
+        if (page + 1 == articleList.page) {
+            page = articleList.page
+            totalPages = articleList.totalPages
             articlesList = mutableListOf<Article>().also {
                 it.addAll(articlesList ?: listOf())
             }
@@ -25,9 +24,12 @@ class Articles(
     }
 }
 
+
+
 class Source(
     @SerializedName("id") val id: String?,
-    @SerializedName("name") val name: String?)
+    @SerializedName("name") val name: String?
+)
 
 class Article(
     @SerializedName("source") val source: Source?,

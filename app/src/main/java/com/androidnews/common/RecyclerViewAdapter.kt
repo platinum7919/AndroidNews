@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class ListRecyclerViewAdapter<K : RecyclerViewItem>(layoutInflater: LayoutInflater) :
     RecyclerViewAdapter<K>(layoutInflater) {
 
-    var items: List<K>? = null
+    var itemsDelegate: (() -> List<K>?)? = null
+
+    val items : List<K>? get() = itemsDelegate?.invoke()
 
     @MainThread
-    fun update(items: List<K>, notify: Boolean = true) {
-        this.items = items
+    fun update(itemsDelegate: (() -> List<K>?), notify: Boolean = true) {
+        this.itemsDelegate = itemsDelegate
         if (notify) {
             notifyDataSetChanged()
         }

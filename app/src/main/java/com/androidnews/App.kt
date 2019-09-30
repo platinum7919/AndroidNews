@@ -17,6 +17,8 @@ class App : Application() {
     }
 }
 
-class Config(
+object Config {
     val apiKey: String = "659153112f23422db12fc3b0a43c61a5"
-)
+    val pageSize: Int = 20
+    var language: String = "en"
+}

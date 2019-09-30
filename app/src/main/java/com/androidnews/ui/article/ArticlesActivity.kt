@@ -3,11 +3,10 @@ package com.androidnews.ui.article
 
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.androidnews.R
 import com.androidnews.common.BaseActivity
-import com.androidnews.utils.InjectorUtils
+import com.androidnews.viewmodel.ArticleViewModel
 
 /**
  * A simple detail [Activity] that shows a [User] object (read-only)
@@ -21,7 +20,7 @@ class ArticlesActivity : BaseActivity() {
 
     private val viewModel by lazy {
         val factory = InjectorUtils.provideArticleViewModelFactory(this)
-        ViewModelProviders.of(this, factory).get(ArticlesViewModel::class.java)
+        ViewModelProviders.of(this, factory).get(ArticleViewModel::class.java)
     }
 
 
@@ -31,9 +30,7 @@ class ArticlesActivity : BaseActivity() {
         setContentView(R.layout.activity_articles)
         supportActionBar?.setTitle(R.string.articles_title)
 
-        viewModel.getArticlesData().observe(this, Observer {
 
-        })
     }
 
 
