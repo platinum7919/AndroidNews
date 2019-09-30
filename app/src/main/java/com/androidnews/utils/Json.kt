@@ -1,10 +1,8 @@
 package com.androidnews.utils
 
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.FieldNamingStrategy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.lang.Exception
 
 object Json : JsonImpl() {
 }

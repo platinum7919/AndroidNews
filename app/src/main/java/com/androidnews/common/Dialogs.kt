@@ -4,16 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
-import android.database.DataSetObserver
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.ListAdapter
-import com.androidnews.R
 import com.androidnews.R
 import timber.log.Timber
 

@@ -1,7 +1,7 @@
 package com.androidnews.utils
 
 import android.content.Context
-import com.androidnews.ui.ArticleViewModelFactory
+import com.androidnews.ui.article.ArticleViewModelFactory
 
 /**
  * Might later want to use a [Repository] class to handle where the data is coming from

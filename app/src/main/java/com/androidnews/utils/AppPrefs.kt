@@ -2,7 +2,6 @@ package com.androidnews.utils
 
 import android.content.Context
 import android.content.ContextWrapper
-import com.androidnews.data.Article
 import com.pixplicity.easyprefs.library.Prefs
 
 class AppPrefs(ctx: Context) {
