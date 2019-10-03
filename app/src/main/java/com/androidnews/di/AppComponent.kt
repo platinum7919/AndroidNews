@@ -9,19 +9,26 @@ import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    AndroidInjectionModule::class,
-    AppModule::class,
-    ArticlesActivityModule::class
-])
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        AppModule::class,
+        ActivityBuilder::class
+    ]
+)
 interface AppComponent {
+
+
+    fun inject(app: App)
+
+
     @Component.Builder
     interface Builder {
+
         @BindsInstance
         fun application(application: Application): Builder
 
         fun build(): AppComponent
     }
 
-    fun inject(app: App)
 }

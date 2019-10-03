@@ -1,4 +1,4 @@
-package com.androidnews.ui.article
+package com.androidnews.views.article
 
 import com.androidnews.common.BaseActivity
 

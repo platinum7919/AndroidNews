@@ -1,4 +1,4 @@
-package com.androidnews.views
+package com.androidnews.views.customviews
 
 import android.content.Context
 import android.graphics.drawable.Drawable

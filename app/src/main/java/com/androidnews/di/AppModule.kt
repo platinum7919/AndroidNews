@@ -1,32 +1,37 @@
 package com.androidnews.di
 
-import androidx.lifecycle.ViewModelProvider
+import android.app.Application
+import android.content.Context
+import com.androidnews.App
+import com.androidnews.BuildConfig
+import com.androidnews.Config
 import com.androidnews.services.NewsService
-import com.androidnews.viewmodel.AppViewModelFactory
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 import javax.inject.Singleton
 
-@Module(subcomponents = [ViewModelSubComponent::class])
-internal class AppModule {
-    @Singleton
+
+@Module
+class AppModule  {
+
     @Provides
-    fun provideNewsApiService(): NewsService {
+    @Singleton
+    fun provideApplication(application: Application): Context {
+        return application
+    }
+
+
+
+
+    @Provides
+    @Singleton
+    fun provideNewsService() : NewsService {
         return Retrofit.Builder()
             .baseUrl(NewsService.baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideViewModelFactory(
-        viewModelSubComponent: ViewModelSubComponent.Builder
-    ): ViewModelProvider.Factory {
-        return AppViewModelFactory(viewModelSubComponent.build())
     }
 }

@@ -1,4 +1,4 @@
-package com.androidnews.ui.article
+package com.androidnews.views.article
 
 
 import android.os.Bundle
@@ -7,6 +7,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.androidnews.R
 import com.androidnews.common.BaseActivity
 import com.androidnews.viewmodel.ArticleViewModel
+import com.androidnews.viewmodel.ViewModelFactory
+import timber.log.Timber
+import javax.inject.Inject
+
+
+
 
 /**
  * A simple detail [Activity] that shows a [User] object (read-only)
@@ -14,13 +20,16 @@ import com.androidnews.viewmodel.ArticleViewModel
 class ArticlesActivity : BaseActivity() {
 
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+
     val parentLayout by lazy {
         findViewById<ConstraintLayout>(R.id.parent)
     }
 
     private val viewModel by lazy {
-        val factory = InjectorUtils.provideArticleViewModelFactory(this)
-        ViewModelProviders.of(this, factory).get(ArticleViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(ArticleViewModel::class.java)
     }
 
 
@@ -29,6 +38,8 @@ class ArticlesActivity : BaseActivity() {
 
         setContentView(R.layout.activity_articles)
         supportActionBar?.setTitle(R.string.articles_title)
+        Timber.d("viewModel = ${viewModel} parentLayout = ${parentLayout}")
+
 
 
     }

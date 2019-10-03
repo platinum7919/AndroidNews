@@ -1,12 +1,26 @@
 package com.androidnews
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import com.androidnews.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import timber.log.Timber
+import javax.inject.Inject
 
 lateinit var appCtx: Context
 
-class App : Application() {
+class App : Application(), HasActivityInjector {
+
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return activityInjector
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -14,6 +28,11 @@ class App : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+
+        DaggerAppComponent
+            .builder()
+            .application(this).build()
+            .inject(this)
     }
 }
 

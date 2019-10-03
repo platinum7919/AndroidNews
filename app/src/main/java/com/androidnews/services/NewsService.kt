@@ -1,6 +1,5 @@
 package com.androidnews.services
 
-import android.support.v4.app.NotificationCompatBase.add
 import com.androidnews.Config
 import retrofit2.Call
 import retrofit2.http.GET

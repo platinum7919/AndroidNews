@@ -8,7 +8,7 @@ import com.androidnews.data.ArticleList
 import javax.inject.Inject
 
 
-class ArticleListViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
+class ArticleListViewModel(app: Application) : AndroidViewModel(app) {
 
     private val article: MutableLiveData<ArticleList> by lazy {
         MutableLiveData<ArticleList>().also {
