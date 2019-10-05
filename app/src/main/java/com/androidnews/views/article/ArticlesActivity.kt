@@ -13,11 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidnews.R
 import com.androidnews.common.*
 import com.androidnews.data.Article
-import com.androidnews.data.ArticleList
-import com.androidnews.viewmodel.ArticleListViewModel
+import com.androidnews.data.ArticlePage
+import com.androidnews.repository.db.AppDatabase
+import com.androidnews.viewmodel.ArticlePageViewModel
 import com.androidnews.viewmodel.ViewModelFactory
 import com.androidnews.views.EXTRA_ARTICLE
 import com.androidnews.views.customviews.AsyncLayout
@@ -30,16 +30,19 @@ import javax.inject.Inject
  * A simple detail [Activity] that shows a [User] object (read-only)
  */
 class ArticlesActivity : BaseActivity() {
+    @Inject
+    lateinit var appDatabase: AppDatabase
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private val asyncLayout by lazy {
-        findViewById<AsyncLayout>(R.id.asynclayout)
+        findViewById<AsyncLayout>(com.androidnews.R.id.asynclayout)
     }
 
     private val recycleView by lazy {
-        findViewById<RecyclerView>(R.id.recyclerview_articles).apply {
+        findViewById<RecyclerView>(com.androidnews.R.id.recyclerview_articles).apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
     }
@@ -58,25 +61,27 @@ class ArticlesActivity : BaseActivity() {
     }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(ArticleListViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(ArticlePageViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_articles)
-        supportActionBar?.setTitle(R.string.articles_title)
+        setContentView(com.androidnews.R.layout.activity_articles)
+        supportActionBar?.setTitle(com.androidnews.R.string.articles_title)
         Timber.d("viewModel = ${viewModel} json = ${json}")
 
-        viewModel.articleList.observe(this, Observer {
+        viewModel.articlePage.observe(this, Observer {
             update(it)
         })
 
         viewModel.loadData()
         asyncLayout.showLoading()
+
     }
 
 
-    private fun update(result: com.androidnews.services.Result<ArticleList>) {
+
+    private fun update(result: com.androidnews.repository.Result<ArticlePage>) {
         if (result.isFetching) {
             // loading
             if (adapter.itemCount == 0) {
@@ -87,14 +92,12 @@ class ArticlesActivity : BaseActivity() {
             // success
             asyncLayout.showDefault()
             val list = result.data?.list
-
-
             if (list?.size == 0) {
                 // empty
                 asyncLayout.showMessage().apply {
                     setMessage(
-                        getString(R.string.message_no_articles_found),
-                        action = MessageAction(getString(R.string.button_retry)) {
+                        getString(com.androidnews.R.string.message_no_articles_found),
+                        action = MessageAction(getString(com.androidnews.R.string.button_retry)) {
                             viewModel.loadData()
                         })
                 }
@@ -105,7 +108,7 @@ class ArticlesActivity : BaseActivity() {
 
         } else {
             Timber.e(result.error)
-            asyncLayout.showError(result.error, action = MessageAction(text = getString(R.string.button_retry)) {
+            asyncLayout.showError(result.error, action = MessageAction(text = getString(com.androidnews.R.string.button_retry)) {
                 viewModel.loadData()
             })
         }
@@ -141,26 +144,30 @@ class ArticleAdapter(
     }
 
     inner class ViewHolder(parent: ViewGroup) :
-        RecyclerViewViewHolder<Article>(layoutInflater.inflate(R.layout.listitem_article, parent, false)) {
+        RecyclerViewViewHolder<Article>(layoutInflater.inflate(com.androidnews.R.layout.listitem_article, parent, false)) {
 
         val card by lazy {
-            itemView.findViewById<CardView>(R.id.cardview_article)
+            itemView.findViewById<CardView>(com.androidnews.R.id.cardview_article)
         }
 
         val thumbnailImage by lazy {
-            itemView.findViewById<ImageView>(R.id.imageview_article_thumbnail)
+            itemView.findViewById<ImageView>(com.androidnews.R.id.imageview_article_thumbnail)
         }
 
         val headerText by lazy {
-            itemView.findViewById<TextView>(R.id.textview_article_header)
+            itemView.findViewById<TextView>(com.androidnews.R.id.textview_article_header)
         }
 
         val titleText by lazy {
-            itemView.findViewById<TextView>(R.id.textview_article_title)
+            itemView.findViewById<TextView>(com.androidnews.R.id.textview_article_title)
         }
 
         val descriptionText by lazy {
-            itemView.findViewById<TextView>(R.id.textview_article_description)
+            itemView.findViewById<TextView>(com.androidnews.R.id.textview_article_description)
+        }
+
+        val dateText by lazy {
+            itemView.findViewById<TextView>(com.androidnews.R.id.textview_article_date)
         }
 
 
@@ -185,10 +192,17 @@ class ArticleAdapter(
             titleText.text = item.title ?: ""
             descriptionText.text = item.description ?: ""
             thumbnailImage.loadUrl(ctx, item.urlToImage ?: "")
+            item.publishedAt?.let {
+                dateText.visible()
+                dateText.text = it.getPastDurationText(ctx)
+
+            } ?: run {
+                dateText.gone()
+            }
 
             card.margin(
-                topPx = ctx.dimenToPx(if (position == 0) R.dimen.margin_4x else R.dimen.margin_2x),
-                bottomPx = ctx.dimenToPx(if (position >= itemCount - 1) R.dimen.margin_4x else R.dimen.margin_2x)
+                topPx = ctx.dimenToPx(if (position == 0) com.androidnews.R.dimen.margin_4x else com.androidnews.R.dimen.margin_2x),
+                bottomPx = ctx.dimenToPx(if (position >= itemCount - 1) com.androidnews.R.dimen.margin_4x else com.androidnews.R.dimen.margin_2x)
             )
         }
 

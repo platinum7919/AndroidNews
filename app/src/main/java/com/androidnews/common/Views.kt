@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.DimenRes
+import com.androidnews.R
 import com.bumptech.glide.Glide
+import java.util.*
 
 
 /**
@@ -105,4 +107,35 @@ fun View.margin(startPx: Int? = null, topPx: Int? = null, bottomPx: Int? = null,
         }
         requestLayout()
     }
+}
+
+
+fun Date.getPastDurationText(ctx: Context): String {
+    val now = Calendar.getInstance()
+    val target = Calendar.getInstance().also {
+        it.time = this
+    }
+    if (target.after(now)) {
+        return "Future..."
+    }
+    val daysApart = now.get(Calendar.DAY_OF_YEAR) - target.get(Calendar.DAY_OF_YEAR)
+    return (if (now.get(Calendar.YEAR) == target.get(Calendar.YEAR)) {
+        if (daysApart == 0) {
+            val hoursApart = now.get(Calendar.HOUR_OF_DAY) - target.get(Calendar.HOUR_OF_DAY)
+            if (hoursApart == 0) {
+                val minsApart = now.get(Calendar.MINUTE) - target.get(Calendar.MINUTE)
+                ctx.getString(R.string.x_minutes_ago, minsApart.toString())
+            } else {
+                ctx.getString(R.string.x_hours_ago, hoursApart.toString())
+            }
+        } else if (daysApart == 1) {
+            ctx.getString(R.string.yesterday)
+        } else if (daysApart <= 31) {
+            ctx.getString(R.string.x_days_ago, daysApart.toString())
+        } else {
+            ctx.getString(R.string.x_months_ago, (now.get(Calendar.MONTH) - target.get(Calendar.MONTH)).toString())
+        }
+    } else {
+        ctx.getString(R.string.x_years_ago, (now.get(Calendar.YEAR) - target.get(Calendar.YEAR)).toString())
+    })
 }

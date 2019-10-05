@@ -23,6 +23,7 @@
         <TextView
                 android:id="@+id/textview_article_title"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/textsize_huge"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/AppTheme.Widget.ListItem.Title"
@@ -30,16 +31,40 @@
                 android:layout_height="wrap_content"
                 tools:text="a lal  al ala  la  lla"/>
 
+
+        <TextView
+                android:id="@+id/textview_article_author"
+                style="@style/AppTheme.Widget.ListItem.Author"
+                android:textSize="@dimen/textsize_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_1x"
+                tools:text="a lal  al ala  la  lla"/>
+
+        <TextView
+                android:id="@+id/textview_article_publish_date"
+                style="@style/AppTheme.Widget.ListItem.TextView"
+                android:textSize="@dimen/textsize_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_article_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_1x"
+                tools:text="a lal  al ala  la  lla"/>
         <TextView
                 android:id="@+id/textview_article_content"
                 style="@style/AppTheme.Widget.ListItem.TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_article_title"
+                app:layout_constraintTop_toBottomOf="@+id/textview_article_publish_date"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_2x"
+                android:layout_marginTop="@dimen/margin_3x"
                 tools:text="a lal  al ala  la  lla"/>
 
 

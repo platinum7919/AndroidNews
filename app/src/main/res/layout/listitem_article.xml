@@ -74,8 +74,25 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/textview_article_title"
                     android:layout_toStartOf="@+id/imageview_article_thumbnail"
+                    android:layout_marginBottom="@dimen/margin_1x"
+            />
+
+
+            <TextView
+                    android:layout_marginTop="@dimen/margin_1x"
+                    android:layout_below="@+id/textview_article_description"
+                    android:layout_marginStart="@dimen/margin_4x"
+                    android:textAlignment="textStart"
+                    style="@style/AppTheme.Widget.ListItem.Footer"
+                    android:id="@+id/textview_article_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Today"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/imageview_article_thumbnail"
                     android:layout_marginBottom="@dimen/margin_4x"
             />
+
 
 
         </RelativeLayout>

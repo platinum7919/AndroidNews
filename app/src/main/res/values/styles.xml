@@ -33,12 +33,25 @@
         <item name="android:textColor">@color/textcolor_foreground_secondary</item>
         <item name="android:textSize">@dimen/textsize_small</item>
     </style>
+
+    <style name="AppTheme.Widget.ListItem.Footer" parent="AppTheme.Widget.ListItem.TextView">
+        <item name="android:textColor">@color/textcolor_foreground_secondary</item>
+        <item name="android:textSize">@dimen/textsize_small</item>
+    </style>
+
+
     <style name="AppTheme.Widget.ListItem.Title" parent="AppTheme.Widget.ListItem.TextView">
         <item name="android:textColor">@color/textcolor_foreground</item>
         <item name="android:textSize">@dimen/textsize_large</item>
         <item name="android:textStyle">bold</item>
     </style>
 
+
+    <style name="AppTheme.Widget.ListItem.Author" parent="AppTheme.Widget.ListItem.TextView">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">@dimen/textsize_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="AppTheme.Widget.ListItem.Description" parent="AppTheme.Widget.ListItem.TextView">
         <item name="android:textColor">@color/textcolor_foreground_secondary</item>

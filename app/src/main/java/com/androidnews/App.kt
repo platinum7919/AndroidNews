@@ -10,7 +10,9 @@ import dagger.android.HasActivityInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-lateinit var appCtx: Context
+
+lateinit var app: App
+val appCtx: Context get() = app.applicationContext
 
 class App : Application(), HasActivityInjector {
 
@@ -24,7 +26,7 @@ class App : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        appCtx = this.applicationContext
+        app = this
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
@@ -41,3 +43,35 @@ object Config {
     val pageSize: Int = 20
     var language: String = "en"
 }
+
+
+//    private fun testDb() {
+//        TestTask().execute()
+//    }
+
+
+
+//
+//    class TestTask @Inject constructor() : AsyncTask<Unit, Unit, Unit>() {
+//        @Inject
+//        lateinit var appDatabase: AppDatabase
+//
+//        @Inject
+//        lateinit var json: Json
+//
+//        init {
+//            DaggerAppComponent.builder().application(app).build().inject(this)
+//        }
+//
+//        override fun doInBackground(vararg params: Unit?) {
+//            appDatabase.accountDao().insertAll(
+//                Account(Company("popsical","popsical.com"),"pa2n", 37, "ng.yat.pan@gmail.com", "gmail.com", Date()),
+//                Account(Company("popsical","popsical.com"),"pa3n", 37, "ng.yat.pan@gmail.com", "google.com"),
+//                Account(Company("google","google.com"),"li2n", 38, "linzhao7@gmail.com", "gmail.com")
+//            )
+//            appDatabase.accountDao().getAll().forEach {
+//                Timber.v(it.toJson(json))
+//            }
+//
+//        }
+//    }
