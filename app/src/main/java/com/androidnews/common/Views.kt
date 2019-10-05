@@ -2,12 +2,17 @@ package com.androidnews.common
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.DimenRes
 import com.androidnews.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import java.util.*
 
 
@@ -56,13 +61,35 @@ fun View.invisible() {
 }
 
 fun ImageView.loadUrl(ctx: Context, url: String) {
+    val imageView  = this
     Glide
         .with(ctx)
         .load(url)
         .thumbnail(Glide.with(ctx).load(com.androidnews.R.drawable.spinner))
-        .error(com.androidnews.R.drawable.ic_alert_circle_outline_grey600_36dp)
+        .addListener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                imageView.setImageResource(R.drawable.ic_alert_circle_outline_grey600_24dp)
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                return false
+            }
+
+        })
         .centerCrop()
-        .into(this)
+        .into(imageView)
 }
 
 fun Context.dimenToPx(@DimenRes res: Int): Int {
