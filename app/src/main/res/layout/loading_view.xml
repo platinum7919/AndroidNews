@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent">
 
 
-    <TextView android:layout_gravity="center"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Loading..."/>
+    <com.iitr.kaishu.nsidedprogressbar.NSidedProgressBar
+            android:id="@+id/nSideProgressBar_loadingview"
+            android:layout_width="@dimen/size_loading_progress_bar"
+            android:layout_height="@dimen/size_loading_progress_bar"
+            app:nsidedProg_primaryColor="@color/primarycolor_progressbar"
+            app:nsidedProg_secondaryColor="@color/secondarycolor_progressbar"
+            android:layout_gravity="center"
+            app:nsidedProg_baseSpeed="5"
+            app:nsidedProg_primaryRimWidth="12"
+            app:nsidedProg_sideCount="256"
+            app:nsidedProg_clockwise="true"/>
 
 </FrameLayout>

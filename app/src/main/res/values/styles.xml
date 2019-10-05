@@ -9,7 +9,27 @@
     </style>
 
 
+    <style name="AppTheme.Widget.ListItem.TextView" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textcolor_foreground</item>
+        <item name="android:textSize">@dimen/textsize_medium</item>
+    </style>
 
+    <style name="AppTheme.Widget.ListItem.Header" parent="AppTheme.Widget.ListItem.TextView">
+        <item name="android:textColor">@color/textcolor_foreground_secondary</item>
+        <item name="android:textSize">@dimen/textsize_small</item>
+    </style>
+    <style name="AppTheme.Widget.ListItem.Title" parent="AppTheme.Widget.ListItem.TextView">
+        <item name="android:textColor">@color/textcolor_foreground</item>
+        <item name="android:textSize">@dimen/textsize_large</item>
+    </style>
+
+
+    <style name="AppTheme.Widget.ListItem.Description" parent="AppTheme.Widget.ListItem.TextView">
+        <item name="android:textColor">@color/textcolor_foreground_secondary</item>
+        <item name="android:textSize">@dimen/textsize_medium</item>
+    </style>
 
     <!-- Base application theme. -->
 

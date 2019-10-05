@@ -12,6 +12,12 @@ import com.androidnews.R
 import com.androidnews.common.getChildren
 import com.androidnews.common.removeChildren
 
+
+/**
+ * A help [FrameLayout] that let you temporary hide the default child [view]
+ *
+ * You can change the look and feel by setting your own [AsyncLayoutDelegate] in [delegate]
+ */
 class AsyncLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
@@ -19,7 +25,9 @@ class AsyncLayout @JvmOverloads constructor(
 
     var delegate: AsyncLayoutDelegate = DefaultAsyncLayoutDelegate()
 
-
+    /**
+     * Set the view to a "loading" state
+     */
     fun showLoading(): LoadingView {
         removeTempView()
         setDefaultViewVisible(false)
@@ -45,12 +53,18 @@ class AsyncLayout @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Set the view to the "default" state
+     */
     fun showDefault() {
         removeTempView()
         setDefaultViewVisible(true)
     }
 
 
+    /**
+     * Set the view to show a message state
+     */
     fun showMessage(): MessageView {
         removeTempView()
         setDefaultViewVisible(false)
@@ -61,10 +75,12 @@ class AsyncLayout @JvmOverloads constructor(
         }
     }
 
-
-    fun showError(error: Throwable, action: MessageAction): MessageView {
+    /**
+     * Set the view to show a message that describes the [Throwable]
+     */
+    fun showError(error: Throwable?, action: MessageAction): MessageView {
         return showMessage().also {
-            it.setMessage(text = error.toString(), action = action)
+            it.setMessage(text = error?.toString() ?: "???", action = action)
         }
     }
 

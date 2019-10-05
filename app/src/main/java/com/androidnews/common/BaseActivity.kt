@@ -2,7 +2,6 @@ package com.androidnews.common
 
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection

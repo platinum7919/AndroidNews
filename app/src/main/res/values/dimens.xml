@@ -3,10 +3,26 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="margin_1x">16dp</dimen>
-    <dimen name="margin_2x">32dp</dimen>
+    <dimen name="margin_1x">5dp</dimen>
+    <dimen name="margin_2x">10dp</dimen>
+    <dimen name="margin_3x">15dp</dimen>
+    <dimen name="margin_4x">20dp</dimen>
+    <dimen name="margin_5x">25dp</dimen>
+    <dimen name="margin_6x">30dp</dimen>
+
+
     <dimen name="edittext_horizontal_offset">-4dp</dimen>
 
+    <dimen name="textsize_small">12sp</dimen>
     <dimen name="textsize_medium">16sp</dimen>
+    <dimen name="textsize_large">18sp</dimen>
+    <dimen name="textsize_huge">20sp</dimen>
+
+    <dimen name="size_article_thumbnail">72dp</dimen>
+    <dimen name="size_loading_progress_bar">96dp</dimen>
+
+
+    <dimen name="corner_radius_cardview">10dp</dimen>
+    <dimen name="elevation_cardview">2dp</dimen>
 
 </resources>

@@ -3,4 +3,23 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+
+
+
+    <color name="grey">#888888</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+
+    <color name="primarycolor_progressbar">@color/colorAccent</color>
+    <color name="secondarycolor_progressbar">#333333</color>
+    <color name="textcolor_foreground">#333333</color>
+    <color name="textcolor_foreground_secondary">#aa333333</color>
+    <color name="background_cardview">@color/white</color>
+
+
+    <color name="selector_cardview">#33888888</color>
+
 </resources>

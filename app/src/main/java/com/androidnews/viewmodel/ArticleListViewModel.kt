@@ -5,16 +5,13 @@ import androidx.lifecycle.LiveData
 import com.androidnews.data.ArticleList
 import com.androidnews.services.NewsRepository
 import com.androidnews.services.Result
+import javax.inject.Singleton
 
-
+@Singleton
 class ArticleListViewModel constructor(app: Application, var newsRepository: NewsRepository) : BaseViewModel(app) {
-
 
     val articleList: LiveData<Result<ArticleList>> by lazy {
         newsRepository.articleList
-    }
-
-    init {
     }
 
     private val query: String?

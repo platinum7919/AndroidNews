@@ -18,9 +18,7 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
-
     fun inject(app: App)
-
 
     @Component.Builder
     interface Builder {

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--naming convention: https://jeroenmols.com/blog/2016/03/07/resourcenaming/-->
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_cardview"
+            app:cardElevation="@dimen/elevation_cardview"
+            android:layout_marginStart="@dimen/margin_4x"
+            android:layout_marginEnd="@dimen/margin_4x"
+            android:layout_marginTop="@dimen/margin_2x"
+            android:layout_marginBottom="@dimen/margin_2x"
+            android:id="@+id/cardview_article"
+            android:clickable="true"
+            android:background="@drawable/selector_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_margin="@dimen/margin_4x"
+                    android:id="@+id/imageview_article_thumbnail"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="@dimen/size_article_thumbnail"
+                    android:layout_height="@dimen/size_article_thumbnail"/>
+
+
+            <TextView
+                    android:layout_marginTop="@dimen/margin_4x"
+                    android:layout_marginStart="@dimen/margin_4x"
+                    android:textAlignment="textStart"
+                    style="@style/AppTheme.Widget.ListItem.Header"
+                    android:id="@+id/textview_article_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="CNN"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/imageview_article_thumbnail"
+            />
+
+
+            <TextView
+                    android:layout_marginStart="@dimen/margin_4x"
+                    android:textAlignment="textStart"
+                    style="@style/AppTheme.Widget.ListItem.Title"
+                    android:id="@+id/textview_article_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="News title goes here"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textview_article_header"
+                    android:layout_toStartOf="@+id/imageview_article_thumbnail"
+            />
+
+            <TextView
+                    android:layout_marginStart="@dimen/margin_4x"
+                    android:layout_marginTop="@dimen/margin_2x"
+                    android:textAlignment="textStart"
+                    style="@style/AppTheme.Widget.ListItem.Description"
+                    android:id="@+id/textview_article_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="News description goes here\n\News description goes here News description goes here "
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textview_article_title"
+                    android:layout_toStartOf="@+id/imageview_article_thumbnail"
+                    android:layout_marginBottom="@dimen/margin_4x"
+            />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
