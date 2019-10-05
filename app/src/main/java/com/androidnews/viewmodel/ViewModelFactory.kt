@@ -4,17 +4,18 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidnews.App
+import com.androidnews.services.NewsRepository
 import com.androidnews.views.article.ArticlesActivity
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-
 @Singleton
 class ViewModelFactory @Inject
 constructor(val app: Application) : ViewModelProvider.NewInstanceFactory() {
 
+    @Inject
+    lateinit var newsRepository: NewsRepository
 
     @Suppress("UNCHECKED_CAST")
     override fun <T: ViewModel> create(modelClass: Class<T>) : T {
@@ -22,7 +23,7 @@ constructor(val app: Application) : ViewModelProvider.NewInstanceFactory() {
             return ArticleViewModel(app) as T
 
         }else if (modelClass.isAssignableFrom(ArticleListViewModel::class.java)) run {
-            return ArticleListViewModel(app) as T
+            return ArticleListViewModel(app, newsRepository) as T
 
         }
 

@@ -15,20 +15,50 @@ import javax.inject.Singleton
 class NewsRepository @Inject
 constructor(private val newsService: NewsService) {
 
-    fun getArticleList(query: String, page : Int): LiveData<Result<ArticleList>> {
-        val data = MutableLiveData<Result<ArticleList>>()
-        val pageSize = pageSize
-        newsService.getArticleList(query, page = page, pageSize = pageSize).enqueue(object : Callback<ArticleListResponse> {
-
-            override fun onResponse(call: Call<ArticleListResponse>, response: Response<ArticleListResponse>) {
-                data.value = Result(data = response.body().toArticleList(page, pageSize))
-            }
-
-            override fun onFailure(call: Call<ArticleListResponse>, t: Throwable) {
-                data.value = Result(error = t)
-            }
-        })
-
-        return data
+    val articleList: MutableLiveData<Result<ArticleList>> by lazy {
+        MutableLiveData<Result<ArticleList>>()
     }
+
+
+    init {
+
+    }
+
+    fun getArticleList(query: String, page: Int): LiveData<Result<ArticleList>>{
+        fetchArticleList(query, page)
+        return articleList;
+    }
+
+
+
+    private fun fetchArticleList(query: String, page: Int) {
+        val pageSize = pageSize
+        newsService.getArticleList(query, page = page, pageSize = pageSize)
+            .enqueue(object : Callback<ArticleListResponse> {
+                override fun onResponse(call: Call<ArticleListResponse>, response: Response<ArticleListResponse>) {
+
+                    val fetchedData = response.body().toArticleList(query, page, pageSize)
+
+                    val mergedData = articleList.value?.data?.let {
+                        existingData ->
+                        if(existingData.isAppendingPossible(fetchedData)){
+                            existingData.apply {
+                                append(fetchedData)
+                            }
+                        }else{
+                            existingData
+                        }
+                    } ?: run {
+                        fetchedData
+                    }
+
+                    articleList.postValue(Result(data = mergedData))
+                }
+
+                override fun onFailure(call: Call<ArticleListResponse>, t: Throwable) {
+                    articleList.postValue(Result(error = t))
+                }
+            })
+    }
+
 }

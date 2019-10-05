@@ -5,6 +5,7 @@ import android.content.Context
 import com.androidnews.App
 import com.androidnews.BuildConfig
 import com.androidnews.Config
+import com.androidnews.services.NewsRepository
 import com.androidnews.services.NewsService
 import dagger.Module
 import dagger.Provides
@@ -21,9 +22,6 @@ class AppModule  {
     fun provideApplication(application: Application): Context {
         return application
     }
-
-
-
 
     @Provides
     @Singleton
