@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.androidnews.R
 import com.androidnews.common.getChildren
+import com.androidnews.common.getUserMessage
 import com.androidnews.common.removeChildren
 
 
@@ -80,7 +81,7 @@ class AsyncLayout @JvmOverloads constructor(
      */
     fun showError(error: Throwable?, action: MessageAction): MessageView {
         return showMessage().also {
-            it.setMessage(text = error?.toString() ?: "???", action = action)
+            it.setMessage(text = error?.getUserMessage(context) ?: "???", action = action)
         }
     }
 

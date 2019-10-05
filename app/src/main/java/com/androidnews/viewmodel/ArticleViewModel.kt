@@ -1,23 +1,22 @@
 package com.androidnews.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.androidnews.App
 import com.androidnews.data.Article
-import javax.inject.Inject
+import com.androidnews.services.NewsRepository
 
 
-class ArticleViewModel(app : Application) : BaseViewModel(app) {
 
-    private val article: MutableLiveData<Article> by lazy {
+class ArticleViewModel(app : Application, var newsRepository: NewsRepository) : BaseViewModel(app) {
+
+    val viewingArticle: MutableLiveData<Article> by lazy {
         MutableLiveData<Article>()
     }
 
-    fun getArticle(): LiveData<Article> {
-        return article
-    }
+
+
+
+
 
 }
 

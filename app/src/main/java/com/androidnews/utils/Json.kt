@@ -1,11 +1,8 @@
 package com.androidnews.utils
 
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-object Json : JsonImpl() {
-}
 
 /**
  * Parse json error
@@ -15,16 +12,12 @@ class JsonParseException(msg: String, cause: Throwable? = null) : Exception(msg,
 /**
  * Wrapper for GSON
  */
-open class JsonImpl {
+class Json {
 
-    protected var gson: Gson
-
-    init {
-        gson = GsonBuilder().apply {
-            setPrettyPrinting()
-            setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        }.create()
-    }
+    val gson = GsonBuilder().apply {
+        setPrettyPrinting()
+        setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+    }.create()
 
     /**
      * String to object

@@ -9,4 +9,7 @@
     <string name="message_no_articles_found">No articles found</string>
 
 
+    <string name="error_connection_error">Unable to connect to internet</string>
+
+
 </resources>

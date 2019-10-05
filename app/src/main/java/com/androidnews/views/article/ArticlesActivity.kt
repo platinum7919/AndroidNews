@@ -2,6 +2,7 @@ package com.androidnews.views.article
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.androidnews.data.Article
 import com.androidnews.data.ArticleList
 import com.androidnews.viewmodel.ArticleListViewModel
 import com.androidnews.viewmodel.ViewModelFactory
+import com.androidnews.views.EXTRA_ARTICLE
 import com.androidnews.views.customviews.AsyncLayout
 import com.androidnews.views.customviews.MessageAction
 import timber.log.Timber
@@ -28,7 +30,6 @@ import javax.inject.Inject
  * A simple detail [Activity] that shows a [User] object (read-only)
  */
 class ArticlesActivity : BaseActivity() {
-
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -49,7 +50,7 @@ class ArticlesActivity : BaseActivity() {
                 viewModel.loadData()
             },
             onItemClicked = {
-                onArticleClick(it)
+                onArticleClicked(it)
             }
         ).apply {
             recycleView.adapter = this
@@ -64,7 +65,7 @@ class ArticlesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_articles)
         supportActionBar?.setTitle(R.string.articles_title)
-        Timber.d("viewModel = ${viewModel} asyncLayout = ${asyncLayout}")
+        Timber.d("viewModel = ${viewModel} json = ${json}")
 
         viewModel.articleList.observe(this, Observer {
             update(it)
@@ -111,8 +112,10 @@ class ArticlesActivity : BaseActivity() {
     }
 
 
-    fun onArticleClick(article: Article) {
-        Timber.v("article: ${article.title} clicked")
+    fun onArticleClicked(article: Article) {
+        startActivity(Intent(this, ViewArticleActivity::class.java).apply {
+            setJsonObject(json, EXTRA_ARTICLE, article)
+        })
     }
 
 }

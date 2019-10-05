@@ -25,4 +25,5 @@
     <dimen name="corner_radius_cardview">10dp</dimen>
     <dimen name="elevation_cardview">2dp</dimen>
 
+    <dimen name="app_bar_height">180dp</dimen>
 </resources>
