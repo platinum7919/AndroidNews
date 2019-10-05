@@ -3,4 +3,7 @@
 
     <string name="articles_title">News</string>
 
+    <string name="button_retry">Retry</string>
+
+
 </resources>

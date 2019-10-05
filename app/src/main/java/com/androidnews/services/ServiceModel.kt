@@ -14,14 +14,16 @@ class ArticleListResponse(
     @SerializedName("totalResults") val totalResults: Int?,
     @SerializedName("articles") val articlesList: List<Article>?
 ) : Response() {
-    fun toArticleList(queryId: String, page: Int, pageSize: Int) : ArticleList{
+    fun toArticleList(queryId: String, page: Int, pageSize: Int): ArticleList {
         return ArticleList(queryId, pageSize, articlesList ?: mutableListOf(), page, totalResults ?: 0)
     }
 }
 
 class Result<D>(
+    var fetching: Boolean = false,
     val data: D? = null,
     val error: Throwable? = null
 ) {
     val isSuccess: Boolean get() = error == null
+    val isFetching: Boolean get() = fetching || (data == null && error == null)
 }

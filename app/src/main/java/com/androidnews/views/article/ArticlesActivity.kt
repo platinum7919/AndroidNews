@@ -3,18 +3,18 @@ package com.androidnews.views.article
 
 import android.os.Bundle
 import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.androidnews.R
 import com.androidnews.common.BaseActivity
+import com.androidnews.data.ArticleList
 import com.androidnews.viewmodel.ArticleListViewModel
-import com.androidnews.viewmodel.ArticleViewModel
 import com.androidnews.viewmodel.ViewModelFactory
+import com.androidnews.views.customviews.AsyncLayout
+import com.androidnews.views.customviews.MessageAction
 import timber.log.Timber
 import javax.inject.Inject
-
-
 
 
 /**
@@ -26,12 +26,15 @@ class ArticlesActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    val parentLayout by lazy {
-        findViewById<ConstraintLayout>(R.id.parent)
+    val asyncLayout by lazy {
+        findViewById<AsyncLayout>(R.id.asynclayout)
     }
 
     val loadMoreButton by lazy {
         findViewById<Button>(R.id.button_articles_loadmore)
+    }
+    val articleList by lazy {
+        findViewById<TextView>(R.id.textview_articles_content)
     }
 
 
@@ -42,31 +45,46 @@ class ArticlesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_articles)
         supportActionBar?.setTitle(R.string.articles_title)
-        Timber.d("viewModel = ${viewModel} parentLayout = ${parentLayout}")
+        Timber.d("viewModel = ${viewModel} asyncLayout = ${asyncLayout}")
 
         viewModel.articleList.observe(this, Observer {
-            if(it.isSuccess) {
-                val data = it.data!!
-                Timber.d("page = ${data.page} of ${data.totalPages}")
-                data.list.forEach {
-                    Timber.d("article = ${it.title}")
-                }
-            }else{
-                Timber.e(it.error)
-            }
+            update(it)
         })
 
         loadMoreButton.setOnClickListener {
-            viewModel.loadMore()
+            viewModel.loadData()
         }
-
-        viewModel.onCreate()
-
+        viewModel.loadData()
+        asyncLayout.showLoading()
     }
 
+
+    fun update(result: com.androidnews.services.Result<ArticleList>) {
+        if(result.isFetching){
+            asyncLayout.showLoading()
+
+        } else if (result.isSuccess) {
+            asyncLayout.showDefault()
+            articleList.text = StringBuilder().apply {
+                result.data?.list?.forEach {
+                    append(it.title)
+                    append("\r\n")
+                }
+                append("${result.data?.page ?: 0} of ${result.data?.totalPages ?: 0}")
+            }.toString()
+
+        } else {
+            val e = result.error!!
+            Timber.e(e)
+            asyncLayout.showError(e, action = MessageAction(text = getString(R.string.button_retry)) {
+                viewModel.loadData()
+            })
+        }
+
+
+    }
 
     override fun onResume() {
         super.onResume()

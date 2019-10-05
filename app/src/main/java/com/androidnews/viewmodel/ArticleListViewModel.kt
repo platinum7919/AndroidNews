@@ -1,14 +1,10 @@
 package com.androidnews.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.androidnews.data.ArticleList
 import com.androidnews.services.NewsRepository
 import com.androidnews.services.Result
-import javax.inject.Inject
 
 
 class ArticleListViewModel constructor(app: Application, var newsRepository: NewsRepository) : BaseViewModel(app) {
@@ -18,23 +14,30 @@ class ArticleListViewModel constructor(app: Application, var newsRepository: New
         newsRepository.articleList
     }
 
-    var currentQuery = ArticleQuery(query = "Pokemon", page = 1)
-
     init {
-        articleList.observe(this, Observer {
-
-        })
     }
 
-    fun onCreate(){
-        newsRepository.getArticleList(currentQuery.query, currentQuery.page)
-    }
+    private val query: String?
+        get() {
+            return articleList.value?.data?.queryId
+        }
 
-    fun loadMore(){
-        newsRepository.getArticleList(currentQuery.query, currentQuery.page + 1)
+    private val page: Int?
+        get() {
+            return articleList.value?.data?.page
+        }
+
+    private val totalPages: Int?
+        get() {
+            return articleList.value?.data?.totalPages
+        }
+
+    val hasMoreToLoad: Boolean get() = page == null || (totalPages ?: 0) > (page ?: 0)
+
+    fun loadData() {
+        if (hasMoreToLoad) {
+            newsRepository.getArticleList(query = query ?: "TransferWise", page = (page ?: 0) + 1)
+        }
     }
 
 }
-
-
-class ArticleQuery(var query: String, var page: Int)

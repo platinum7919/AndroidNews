@@ -33,6 +33,8 @@ constructor(private val newsService: NewsService) {
 
     private fun fetchArticleList(query: String, page: Int) {
         val pageSize = pageSize
+
+        articleList.postFetching(true)
         newsService.getArticleList(query, page = page, pageSize = pageSize)
             .enqueue(object : Callback<ArticleListResponse> {
                 override fun onResponse(call: Call<ArticleListResponse>, response: Response<ArticleListResponse>) {
@@ -61,4 +63,14 @@ constructor(private val newsService: NewsService) {
             })
     }
 
+}
+
+
+fun <K> MutableLiveData<Result<K>>.postFetching(fetching : Boolean){
+    this.value?.let {
+            existing ->
+        this.postValue(existing.also {
+            it.fetching = fetching
+        })
+    }
 }

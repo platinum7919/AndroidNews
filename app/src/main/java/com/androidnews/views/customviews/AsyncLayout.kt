@@ -3,60 +3,121 @@ package com.androidnews.views.customviews
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import com.androidnews.R
+import com.androidnews.common.getChildren
+import com.androidnews.common.removeChildren
 
 class AsyncLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    init {
 
+    var delegate: AsyncLayoutDelegate = DefaultAsyncLayoutDelegate()
+
+
+    fun showLoading(): LoadingView {
+        removeTempView()
+        setDefaultViewVisible(false)
+        return delegate.createLoadingView(context).also {
+            addView(it.view.also { v ->
+                v.setTag(R.id.is_temp, true)
+            })
+        }
+    }
+
+    private fun setDefaultViewVisible(visible: Boolean) {
+        getChildren {
+            getTag(R.id.is_temp) != true
+        }.forEach {
+            it.visibility = if (visible) View.VISIBLE else View.GONE
+        }
     }
 
 
-    fun setLoading() {
+    private fun removeTempView() {
+        removeChildren { v ->
+            v.getTag(R.id.is_temp) == true
+        }
+    }
 
+    fun showDefault() {
+        removeTempView()
+        setDefaultViewVisible(true)
     }
 
 
-    fun setDefault() {
-
+    fun showMessage(): MessageView {
+        removeTempView()
+        setDefaultViewVisible(false)
+        return delegate.createMessageView(context).also {
+            addView(it.view.also { v ->
+                v.setTag(R.id.is_temp, true)
+            })
+        }
     }
 
 
-    fun setMessage(message: String) {
-
+    fun showError(error: Throwable, action: MessageAction): MessageView {
+        return showMessage().also {
+            it.setMessage(text = error.toString(), action = action)
+        }
     }
 
-
-    fun setError() {
-
-    }
 }
 
 
-class DefaultAsyncLayoutDelegate(
-    val context : Context
-) {
+class DefaultAsyncLayoutDelegate : AsyncLayoutDelegate {
+    override fun createLoadingView(ctx: Context): LoadingView {
+        return object : LoadingView {
+            override val view: View by lazy {
+                LayoutInflater.from(ctx).inflate(R.layout.loading_view, null, false)
+            }
+        }
+    }
 
+    override fun createMessageView(ctx: Context): MessageView {
+        return object : MessageView {
+            override fun setMessage(text: String, action: MessageAction) {
+                view.findViewById<TextView>(R.id.textview_message_text).text = text
+                view.findViewById<TextView>(R.id.button_message_action).also {
+                    it.text = action.text
+                    it.setOnClickListener {
+                        action.action()
+                    }
+                }
+            }
+
+            override fun setImage(drawable: () -> Drawable) {
+                view.findViewById<ImageView>(R.id.imageview_message_image).setImageDrawable(drawable())
+            }
+
+            override val view: View by lazy {
+                LayoutInflater.from(ctx).inflate(R.layout.message_view, null, false)
+            }
+        }
+    }
 }
 
 
 interface AsyncLayoutDelegate {
-    fun createLoadingView(): LoadingView
-    fun createMessageView(): MessageView
+    fun createLoadingView(ctx: Context): LoadingView
+    fun createMessageView(ctx: Context): MessageView
 }
 
 
 interface LoadingView {
-    fun getView(): View
+    val view: View
 }
 
 interface MessageView {
     fun setImage(drawable: () -> Drawable)
     fun setMessage(text: String, action: MessageAction)
-    fun getView(): View
+    val view: View
 }
 
-class MessageAction(val text: String, action: () -> Unit)
+class MessageAction(val text: String, val action: () -> Unit)

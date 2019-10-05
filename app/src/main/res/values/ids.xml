@@ -1,0 +1,4 @@
+<resources>
+    <item type="id" name="is_default"/>
+    <item type="id" name="is_temp"/>
+</resources>
