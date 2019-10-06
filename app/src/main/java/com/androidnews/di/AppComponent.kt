@@ -19,8 +19,6 @@ interface AppComponent {
 
     fun inject(app: App)
 
-//    fun inject(injector: ArticlesActivity.TestTask)
-
     @Component.Builder
     interface Builder {
 
