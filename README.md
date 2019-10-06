@@ -21,5 +21,5 @@ In this app, I attempted to use
 - Rx for working outside the main thread
 - Timber for logging
 
-
+# Note
 (This is a just a simple app I whipped up during the weekend. I don't have any future plan for it yet)
