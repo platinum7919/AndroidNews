@@ -3,7 +3,6 @@ package com.androidnews.repository
 import com.androidnews.data.Article
 import com.androidnews.data.ArticlePage
 import com.androidnews.utils.generateKey
-import com.androidnews.utils.toEpochDateString
 import com.google.gson.annotations.SerializedName
 
 abstract class Response {
@@ -31,9 +30,9 @@ class ArticleListResponse(
             // generate a unique key for this article object
             it.id = generateKey(
                 it.title,
+                it.url,
                 it.source?.id,
-                it.source?.name,
-                it.publishedAt?.toEpochDateString()
+                it.source?.name
             )
         }
 

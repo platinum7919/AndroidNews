@@ -1,8 +1,9 @@
 package com.androidnews.data
 
+import com.androidnews.TestHelper
+import com.androidnews.TestHelper.createArticle
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,11 +14,11 @@ class DataModelTest {
 
 
     @Test
-    fun test_PaginatedListCheckAppend() {
+    fun testPaginatedListCheckAppend() {
 
-        val firstPage = MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
-        val secondPage = MockPaginatedList(5, 2, 12, listOf(6, 7, 8, 9, 10))
-        val thirdPage = MockPaginatedList(5, 3, 12, listOf(11, 12))
+        val firstPage = TestHelper.MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
+        val secondPage = TestHelper.MockPaginatedList(5, 2, 12, listOf(6, 7, 8, 9, 10))
+        val thirdPage = TestHelper.MockPaginatedList(5, 3, 12, listOf(11, 12))
 
 
         Assert.assertTrue(firstPage.isAppendingPossible(secondPage))
@@ -32,10 +33,10 @@ class DataModelTest {
      * Should not append if pagesize changed
      */
     @Test(expected = IllegalArgumentException::class)
-    fun test_PaginatedListAppendError() {
+    fun testPaginatedListAppendError() {
 
-        val firstPage = MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
-        val secondPage = MockPaginatedList(6, 2, 12, listOf(6, 7, 8, 9, 10))
+        val firstPage = TestHelper.MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
+        val secondPage = TestHelper.MockPaginatedList(6, 2, 12, listOf(6, 7, 8, 9, 10))
         firstPage.append(secondPage)
 
     }
@@ -44,10 +45,10 @@ class DataModelTest {
      * Should not append if pagesize changed
      */
     @Test
-    fun test_PaginatedListAppend() {
+    fun testPaginatedListAppend() {
 
-        val firstPage = MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
-        val secondPage = MockPaginatedList(5, 2, 12, listOf(6, 7, 8, 9, 10))
+        val firstPage = TestHelper.MockPaginatedList(5, 1, 12, listOf(1, 2, 3, 4, 5))
+        val secondPage = TestHelper.MockPaginatedList(5, 2, 12, listOf(6, 7, 8, 9, 10))
         firstPage.append(secondPage)
 
         val fetchedPage = firstPage;
@@ -63,18 +64,18 @@ class DataModelTest {
     }
 
     @Test
-    fun test_ArticlePage() {
+    fun testArticlePage() {
         val query = "test"
         val firstPage = ArticlePage(query, pageSize = 3, pageNum = 1, totalItems = 7, list = listOf(
-            _createArticle(query, "1234"),
-            _createArticle(query, "234234"),
-            _createArticle(query, "sdasd")
+            createArticle(query, "1234"),
+            createArticle(query, "234234"),
+            createArticle(query, "sdasd")
         ))
 
         val secondPage = ArticlePage(query, pageSize = 3, pageNum = 2, totalItems = 7, list = listOf(
-            _createArticle(query, "zxzxxzc"),
-            _createArticle(query, "asdsdasdasd"),
-            _createArticle(query, "wqwqeqwe")
+            createArticle(query, "zxzxxzc"),
+            createArticle(query, "asdsdasdasd"),
+            createArticle(query, "wqwqeqwe")
         ))
 
         firstPage.append(secondPage)
@@ -92,18 +93,18 @@ class DataModelTest {
      * Should not append if pagesize changed
      */
     @Test(expected = IllegalArgumentException::class)
-    fun test_ArticlePageAppendError() {
+    fun testArticlePageAppendError() {
         val query = "test"
         val firstPage = ArticlePage(query, pageSize = 3, pageNum = 1, totalItems = 7, list = listOf(
-            _createArticle(query, "1234"),
-            _createArticle(query, "234234"),
-            _createArticle(query, "sdasd")
+            createArticle(query, "1234"),
+            createArticle(query, "234234"),
+            createArticle(query, "sdasd")
         ))
 
         val secondPage = ArticlePage("another query", pageSize = 3, pageNum = 2, totalItems = 7, list = listOf(
-            _createArticle(query, "dsfds"),
-            _createArticle(query, "123123"),
-            _createArticle(query, "zxczczx")
+            createArticle(query, "dsfds"),
+            createArticle(query, "123123"),
+            createArticle(query, "zxczczx")
         ))
         firstPage.append(secondPage)
 
@@ -111,29 +112,3 @@ class DataModelTest {
 
 
 }
-
-fun _createArticle(query: String, r: String): Article {
-    return Article(
-        query = query,
-        source = Source("srcid", "src_name"),
-        author = "Mr_$r",
-        title = "title_$r",
-        description = "des_$r",
-        url = "https://www.google.com",
-        urlToImage = "https://www.google.com",
-        publishedAt = Date(),
-        content = "content_$r",
-        id = "$r"
-    )
-}
-
-
-class MockPaginatedList(
-    override val pageSize: Int,
-    override var pageNum: Int,
-    override var totalItems: Int,
-    override var list: List<Int>
-) : PaginatedList<Int>
-
-
-

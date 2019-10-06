@@ -22,7 +22,7 @@ class ViewsTest : AndroidTest() {
 
 
     @Test
-    fun test_visbility() {
+    fun testvisbility() {
         val layout = LayoutInflater.from(ctx).inflate(R.layout.layout_test, null, false)
 
         layout.visible()
@@ -33,7 +33,7 @@ class ViewsTest : AndroidTest() {
 
 
     @Test
-    fun test_margin() {
+    fun testmargin() {
         val layout = LayoutInflater.from(ctx).inflate(R.layout.layout_test, null, false)
         val textview = layout.findViewById<TextView>(R.id.textview_1)
         textview.margin(startPx = 1, topPx = 2, bottomPx = 3, endPx = 4)
@@ -51,7 +51,7 @@ class ViewsTest : AndroidTest() {
 
 
     @Test
-    fun test_children() {
+    fun testchildren() {
         var layout = LayoutInflater.from(ctx).inflate(R.layout.layout_test, null, false) as ViewGroup
         assertEquals(2, layout.getChildren { true }.size)
 
@@ -79,7 +79,7 @@ class ViewsTest : AndroidTest() {
 
 
     @Test
-    fun test_getStringPastDuration() {
+    fun testgetStringPastDuration() {
         var dateCal = Calendar.getInstance().apply {
             add(Calendar.DATE, -1)
         }

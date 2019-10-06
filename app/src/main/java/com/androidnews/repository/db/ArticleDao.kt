@@ -23,8 +23,8 @@ interface ArticleDao {
      * - only select article if [Article.query] matches [query]
      * - limit select to [pageSize] items
      */
-    @Query("SELECT * FROM articles WHERE published_at < :publishAfter AND query_value = :query ORDER BY published_at DESC LIMIT :pageSize")
-    fun get(query : String, publishAfter : Long, pageSize : Int): List<Article>
+    @Query("SELECT * FROM articles WHERE published_at <= :publishAfter AND query_value = :query ORDER BY published_at DESC LIMIT :pageSize")
+    fun get(query: String, publishAfter: Long, pageSize: Int): List<Article>
 
 
     /**
@@ -32,8 +32,8 @@ interface ArticleDao {
      * - only count article if [Article.publishedAt] is after [publishAfter]
      * - only count article if [Article.query] matches [query]
      */
-    @Query("SELECT COUNT(*) FROM articles WHERE published_at < :publishAfter AND query_value = :query")
-    fun getCount(query : String, publishAfter : Long): Int
+    @Query("SELECT COUNT(*) FROM articles WHERE published_at <= :publishAfter AND query_value = :query")
+    fun getCount(query: String, publishAfter: Long): Int
 
     /**
      * Insert objects into db (replace if [Article.id] already exist)
@@ -44,6 +44,11 @@ interface ArticleDao {
     @Delete
     fun delete(article: Article)
 
+    @Query("DELETE FROM articles WHERE query_value = :query")
+    fun deleteArticles(query: String)
+
+    @Query("DELETE FROM articles")
+    fun deleteAll()
 
 }
 

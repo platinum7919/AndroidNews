@@ -18,7 +18,7 @@ import java.net.*
 @RunWith(AndroidJUnit4::class)
 class ThrowableTest : AndroidTest() {
     @Test
-    fun test_getUserMessage() {
+    fun testgetUserMessage() {
         assertEquals(ctx.getString(R.string.error_connection_error), SocketException().getUserMessage(ctx))
         assertEquals(ctx.getString(R.string.error_connection_error), SocketTimeoutException().getUserMessage(ctx))
         assertEquals(ctx.getString(R.string.error_connection_error), NoRouteToHostException().getUserMessage(ctx))
