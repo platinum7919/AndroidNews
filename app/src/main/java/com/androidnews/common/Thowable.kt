@@ -15,7 +15,6 @@ fun Throwable.getUserMessage(ctx: Context): String {
 //    }
 
     if (this is SocketException
-        || this is java.net.ConnectException
         || this is java.net.NoRouteToHostException
         || this is java.net.ConnectException
         || this is java.net.UnknownHostException

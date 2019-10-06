@@ -105,7 +105,7 @@ class ViewArticleActivity : BaseActivity() {
         }
         article.publishedAt?.let {
             dateText.visible()
-            dateText.text = it.getPastDurationText(this)
+            dateText.text = this.getStringPastDuration(it)
 
         } ?: run {
             dateText.gone()

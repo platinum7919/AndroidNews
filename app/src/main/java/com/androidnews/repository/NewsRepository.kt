@@ -9,7 +9,6 @@ import com.androidnews.data.ArticlePage
 import com.androidnews.repository.db.AppDatabase
 import com.androidnews.repository.db.ArticleDao
 import com.androidnews.repository.service.NewsService
-import com.androidnews.utils.toMD5String
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -188,7 +187,7 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
 }
 
 
-internal fun <K> MutableLiveData<Result<K>>.postFetching(fetching: Boolean) {
+fun <K> MutableLiveData<Result<K>>.postFetching(fetching: Boolean) {
     this.value?.let { existing ->
         this.postValue(existing.also {
             it.fetching = fetching
@@ -197,10 +196,3 @@ internal fun <K> MutableLiveData<Result<K>>.postFetching(fetching: Boolean) {
 }
 
 
-internal fun generateKey(vararg args: String?): String {
-    return StringBuilder().also { sb ->
-        args.forEach { arg ->
-            sb.append("${arg ?: ""}/")
-        }
-    }.toString().toMD5String()
-}

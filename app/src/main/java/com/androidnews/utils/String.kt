@@ -20,3 +20,11 @@ fun String.toMD5String(): String {
 }
 
 fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
+
+fun generateKey(vararg args: String?): String {
+    return StringBuilder().also { sb ->
+        args.forEach { arg ->
+            sb.append("${arg ?: ""}/")
+        }
+    }.toString().toMD5String()
+}

@@ -216,7 +216,7 @@ class ArticleAdapter(
             thumbnailImage.loadUrl(ctx, item.urlToImage ?: "")
             item.publishedAt?.let {
                 dateText.visible()
-                dateText.text = it.getPastDurationText(ctx)
+                dateText.text = ctx.getStringPastDuration(it)
 
             } ?: run {
                 dateText.gone()

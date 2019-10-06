@@ -2,6 +2,7 @@ package com.androidnews.repository
 
 import com.androidnews.data.Article
 import com.androidnews.data.ArticlePage
+import com.androidnews.utils.generateKey
 import com.androidnews.utils.toEpochDateString
 import com.google.gson.annotations.SerializedName
 

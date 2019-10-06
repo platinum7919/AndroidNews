@@ -137,10 +137,10 @@ fun View.margin(startPx: Int? = null, topPx: Int? = null, bottomPx: Int? = null,
 }
 
 
-fun Date.getPastDurationText(ctx: Context): String {
+fun Context.getStringPastDuration(date: Date): String {
     val now = Calendar.getInstance()
     val target = Calendar.getInstance().also {
-        it.time = this
+        it.time = date
     }
     if (target.after(now)) {
         return "Future..."
@@ -151,18 +151,18 @@ fun Date.getPastDurationText(ctx: Context): String {
             val hoursApart = now.get(Calendar.HOUR_OF_DAY) - target.get(Calendar.HOUR_OF_DAY)
             if (hoursApart == 0) {
                 val minsApart = now.get(Calendar.MINUTE) - target.get(Calendar.MINUTE)
-                ctx.getString(R.string.x_minutes_ago, minsApart.toString())
+                this.getString(R.string.x_minutes_ago, minsApart.toString())
             } else {
-                ctx.getString(R.string.x_hours_ago, hoursApart.toString())
+                this.getString(R.string.x_hours_ago, hoursApart.toString())
             }
         } else if (daysApart == 1) {
-            ctx.getString(R.string.yesterday)
+            this.getString(R.string.yesterday)
         } else if (daysApart <= 31) {
-            ctx.getString(R.string.x_days_ago, daysApart.toString())
+            this.getString(R.string.x_days_ago, daysApart.toString())
         } else {
-            ctx.getString(R.string.x_months_ago, (now.get(Calendar.MONTH) - target.get(Calendar.MONTH)).toString())
+            this.getString(R.string.x_months_ago, (now.get(Calendar.MONTH) - target.get(Calendar.MONTH)).toString())
         }
     } else {
-        ctx.getString(R.string.x_years_ago, (now.get(Calendar.YEAR) - target.get(Calendar.YEAR)).toString())
+        this.getString(R.string.x_years_ago, (now.get(Calendar.YEAR) - target.get(Calendar.YEAR)).toString())
     })
 }
