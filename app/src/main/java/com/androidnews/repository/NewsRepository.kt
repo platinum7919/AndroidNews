@@ -9,7 +9,6 @@ import com.androidnews.data.ArticlePage
 import com.androidnews.repository.db.AppDatabase
 import com.androidnews.repository.db.ArticleDao
 import com.androidnews.repository.service.NewsService
-import com.androidnews.utils.toEpochDateString
 import com.androidnews.utils.toMD5String
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -40,14 +39,36 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
     }
 
 
+    /**
+     * Get a [LiveData] of [Result] of [ArticlePage]
+     *
+     * - [ArticlePage] can be converted from [ArticleListResponse] from [NewsService]
+     * - [ArticlePage] can also be created from [List] of [Article] fetched from [ArticleDao]
+     *
+     */
     fun getArticlePage(query: String, page: Int): LiveData<Result<ArticlePage>> {
         fetchArticlePage(query, page)
         return articlePage;
     }
 
 
+    /**
+     * Use [NewsService] to fetch [ArticleListResponse]
+     *
+     * On success:
+     * - [ArticleListResponse] is then converted to [ArticlePage]
+     * - [ArticlePage] will be inserted to db via [ArticleDao]
+     * - [ArticlePage] will be appended to existing value in [articlePage]
+     *
+     * On error:
+     * - [ArticlePage] will be read from db via [ArticleDao]
+     * - (in [getFromDb]) If there is data we will also appended to existing value in [articlePage] if existing [Result.dataSource] is [DataSource.Db]
+     * - Will return a generated [ArticlePage]
+     * - If there is no data in db we will return the [Result] object with the [Throwable] as error
+     *
+     */
     private fun fetchArticlePage(query: String, page: Int) {
-        Timber.v("fetchArticlePage: query:$query, page:$page")
+        Timber.v("fetchArticlePage: get:$query, page:$page")
         val pageSize = pageSize
 
         articlePage.postFetching(true)
@@ -58,15 +79,9 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
                 .subscribe(
                     { response ->
 
-                        response.articlesList?.forEach {
-                            Timber.v("fetchArticlePage: page:${page}, title:${it.title}")
-                        }
                         // this is in background thread
-                        val fetchedData = response.toArticleList(query, page, pageSize)
-
-                        Timber.v("fetchArticlePage:(success response) query:$query, page:${fetchedData.pageNum} totalPage:${fetchedData.totalPages} totalItems=${fetchedData.totalItems}")
-
-
+                        val fetchedData = response.toArticlePage(query, page, pageSize)
+                        Timber.v("fetchArticlePage:(success response) get:$query, page:${fetchedData.pageNum} totalPage:${fetchedData.totalPages} totalItems=${fetchedData.totalItems}")
                         // put fetched data inside db
                         putInDb(fetchedData)
                         val mergedData = articlePage.value?.data?.let { existingData ->
@@ -110,23 +125,10 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
 
 
     /**
-     * insert [Article] objects to db
+     * insert [Article] objects to db.
      */
     @WorkerThread
     private fun putInDb(articlePage: ArticlePage) {
-        articlePage.list.map {
-            it.apply {
-                query = articlePage.query
-
-                // generate a unique key for this article object
-                id = generateKey(
-                    title,
-                    source?.id,
-                    source?.name,
-                    publishedAt?.toEpochDateString()
-                )
-            }
-        }
         articleDao.putAll(*articlePage.list.toTypedArray())
     }
 
@@ -145,10 +147,10 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
         val existingList = articlePage.value?.data?.list
         val query = { publishedAfter: Date ->
             val list = (existingList ?: listOf()).toMutableList().apply {
-                addAll(articleDao.query(query, publishedAfter.time, pageSize))
+                addAll(articleDao.get(query, publishedAfter.time, pageSize))
             }
 
-            val count = articleDao.getQueryCount(query, publishedAfter.time)
+            val count = articleDao.getCount(query, publishedAfter.time)
             Pair(list, count)
         }
 

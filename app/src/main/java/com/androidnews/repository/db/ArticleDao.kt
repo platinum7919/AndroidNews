@@ -10,16 +10,13 @@ interface ArticleDao {
     fun getAll(): List<Article>
 
     @Query("SELECT * FROM articles WHERE id LIKE :id")
-    fun findById(id: String): List<Article>
-
+    fun getById(id: String): List<Article>
 
     @Query("SELECT * FROM articles WHERE published_at < :publishAfter AND query_value = :query ORDER BY published_at DESC LIMIT :pageSize")
-    fun query(query : String, publishAfter : Long, pageSize : Int): List<Article>
+    fun get(query : String, publishAfter : Long, pageSize : Int): List<Article>
 
     @Query("SELECT COUNT(*) FROM articles WHERE published_at < :publishAfter AND query_value = :query")
-    fun getQueryCount(query : String, publishAfter : Long): Int
-
-
+    fun getCount(query : String, publishAfter : Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun putAll(vararg articles: Article)

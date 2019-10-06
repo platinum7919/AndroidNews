@@ -2,6 +2,7 @@ package com.androidnews.repository
 
 import com.androidnews.data.Article
 import com.androidnews.data.ArticlePage
+import com.androidnews.utils.toEpochDateString
 import com.google.gson.annotations.SerializedName
 
 abstract class Response {
@@ -12,15 +13,35 @@ abstract class Response {
 class ArticleListResponse(
     @SerializedName("status") override val status: String?,
     @SerializedName("totalResults") val totalResults: Int?,
-    @SerializedName("articles") val articlesList: List<Article>?
+    @SerializedName("articles") val articles: List<Article>?
 ) : Response() {
-    fun toArticleList(queryId: String, page: Int, pageSize: Int): ArticlePage {
-        return ArticlePage(queryId, pageSize, articlesList ?: mutableListOf(), page, totalResults ?: 0)
+
+
+    /**
+     * Also assign [Article.id] an unique keys so that we can identify each [Article] uniquely
+     *
+     * (fyi, there is no uniqie field per article returned by the API), but we will need one if
+     *
+     * we are to insert these object in db.
+     */
+    fun toArticlePage(query: String, page: Int, pageSize: Int): ArticlePage {
+        articles?.forEach {
+            it.query = query
+            // generate a unique key for this article object
+            it.id = generateKey(
+                it.title,
+                it.source?.id,
+                it.source?.name,
+                it.publishedAt?.toEpochDateString()
+            )
+        }
+
+        return ArticlePage(query, pageSize, articles ?: mutableListOf(), page, totalResults ?: 0)
     }
 }
 
 class Result<D>(
-    var dataSource : DataSource,
+    var dataSource: DataSource,
     var fetching: Boolean = false,
     val data: D? = null,
     val error: Throwable? = null
