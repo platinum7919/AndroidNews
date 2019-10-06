@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.androidnews.R
@@ -11,12 +12,12 @@ import com.androidnews.common.*
 import com.androidnews.data.Article
 import com.androidnews.viewmodel.ArticleViewModel
 import com.androidnews.viewmodel.ViewModelFactory
-import com.androidnews.views.EXTRA_ARTICLE
+import com.androidnews.views.EXTRA_ARTICLE_ID
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 /**
- * A simple detail [Activity] that shows a [User] object (read-only)
+ * A simple detail [Activity] that shows a [Article] object (read-only)
  */
 class ViewArticleActivity : BaseActivity() {
     @Inject
@@ -61,18 +62,25 @@ class ViewArticleActivity : BaseActivity() {
 
     private val article: Article?
         get() {
-            return viewModel.viewingArticle.value
+            return articleLiveData.value
         }
+
+    private lateinit var articleLiveData: LiveData<Article>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_article)
-        viewModel.viewingArticle.observe(this, Observer {
-            update(it)
-        })
 
-        intent?.getJsonObject<Article>(json, EXTRA_ARTICLE)?.let {
-            viewModel.viewingArticle.postValue(it)
+
+        // get the [Article] object from Repository
+        intent?.getStringExtra(EXTRA_ARTICLE_ID)?.let {
+            id ->
+            viewModel.getArticle(id).also {
+                articleLiveData = it
+            }.observe(this, Observer {
+                update(it)
+            })
         } ?: run {
             showSnackBar("Article object not found")
             finish()

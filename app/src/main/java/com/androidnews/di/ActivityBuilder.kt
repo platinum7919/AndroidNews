@@ -1,6 +1,6 @@
 package com.androidnews.di
 
-import com.androidnews.views.article.ArticlesActivity
+import com.androidnews.views.article.ArticlePageActivity
 import com.androidnews.views.article.ViewArticleActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
     //@ContributesAndroidInjector(modules = [ArticlesActivityModule::class])
     @ContributesAndroidInjector
-    abstract fun buildArticlesActivity(): ArticlesActivity
+    abstract fun buildArticlesActivity(): ArticlePageActivity
 
     @ContributesAndroidInjector
     abstract fun buildViewArticleActivity(): ViewArticleActivity

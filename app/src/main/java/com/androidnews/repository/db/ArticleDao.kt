@@ -14,7 +14,7 @@ interface ArticleDao {
     fun getAll(): List<Article>
 
     @Query("SELECT * FROM articles WHERE id LIKE :id")
-    fun getById(id: String): List<Article>
+    fun getById(id: String): Article
 
 
     /**

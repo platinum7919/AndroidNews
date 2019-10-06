@@ -10,6 +10,7 @@ import com.androidnews.repository.db.AppDatabase
 import com.androidnews.repository.db.ArticleDao
 import com.androidnews.repository.service.NewsService
 import com.androidnews.utils.toMD5String
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -27,6 +28,11 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
     }
 
 
+    val article: MutableLiveData<Article> by lazy {
+        MutableLiveData<Article>()
+    }
+
+
     val articleDao: ArticleDao
         get() {
             return appDatabase.articleDao()
@@ -36,6 +42,16 @@ constructor(private val newsService: NewsService, private val appDatabase: AppDa
 
     init {
 
+    }
+
+    fun getArticle(id: String): LiveData<Article> {
+        disposable.add(Single.fromCallable { appDatabase.articleDao().getById(id) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({
+                article.postValue(it)
+            }, {}))
+        return article;
     }
 
 

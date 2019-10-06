@@ -1,3 +1,3 @@
 package com.androidnews.views
 
-const val EXTRA_ARTICLE = "EXTRA_ARTICLE"
+const val EXTRA_ARTICLE_ID = "EXTRA_ARTICLE_ID"

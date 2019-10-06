@@ -1,6 +1,5 @@
 package com.androidnews.views.article
 
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,10 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidnews.common.*
 import com.androidnews.data.Article
 import com.androidnews.data.ArticlePage
-import com.androidnews.repository.db.AppDatabase
 import com.androidnews.viewmodel.ArticlePageViewModel
 import com.androidnews.viewmodel.ViewModelFactory
-import com.androidnews.views.EXTRA_ARTICLE
+import com.androidnews.views.EXTRA_ARTICLE_ID
 import com.androidnews.views.customviews.AsyncLayout
 import com.androidnews.views.customviews.MessageAction
 import timber.log.Timber
@@ -29,14 +27,16 @@ import javax.inject.Inject
 /**
  * A simple detail [Activity] that shows a [User] object (read-only)
  */
-class ArticlesActivity : BaseActivity() {
-    @Inject
-    lateinit var appDatabase: AppDatabase
-
+class ArticlePageActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+
+    /**
+     * A helper [ViewGroup] custom view that helps render various states of
+     * an [com.androidnews.repository.Result] object
+     */
     private val asyncLayout by lazy {
         findViewById<AsyncLayout>(com.androidnews.R.id.asynclayout)
     }
@@ -47,6 +47,10 @@ class ArticlesActivity : BaseActivity() {
         }
     }
 
+
+    /**
+     * [RecyclerView.Adapter] for [recycleView]
+     */
     private val adapter by lazy {
         ArticleAdapter(layoutInflater,
             loadMore = {
@@ -80,7 +84,9 @@ class ArticlesActivity : BaseActivity() {
     }
 
 
-
+    /**
+     * Update the UI based on [com.androidnews.repository.Result] object values
+     */
     private fun update(result: com.androidnews.repository.Result<ArticlePage>) {
         if (result.isFetching) {
             // loading
@@ -108,21 +114,31 @@ class ArticlesActivity : BaseActivity() {
 
         } else {
             Timber.e(result.error)
-            asyncLayout.showError(result.error, action = MessageAction(text = getString(com.androidnews.R.string.button_retry)) {
-                viewModel.loadData()
-            })
+            asyncLayout.showError(
+                result.error,
+                action = MessageAction(text = getString(com.androidnews.R.string.button_retry)) {
+                    viewModel.loadData()
+                })
         }
     }
 
-
+    /**
+     * When an [Article] is clicked
+     *
+     */
     fun onArticleClicked(article: Article) {
         startActivity(Intent(this, ViewArticleActivity::class.java).apply {
-            setJsonObject(json, EXTRA_ARTICLE, article)
+            putExtra(EXTRA_ARTICLE_ID, article.id)
         })
     }
 
 }
 
+
+/**
+ * An [ListRecyclerViewAdapter] implemention that helps to render [Article] object
+ * on [RecyclerView]
+ */
 class ArticleAdapter(
     layoutInflater: LayoutInflater,
     val loadMore: (() -> Unit)?,
@@ -144,7 +160,13 @@ class ArticleAdapter(
     }
 
     inner class ViewHolder(parent: ViewGroup) :
-        RecyclerViewViewHolder<Article>(layoutInflater.inflate(com.androidnews.R.layout.listitem_article, parent, false)) {
+        RecyclerViewViewHolder<Article>(
+            layoutInflater.inflate(
+                com.androidnews.R.layout.listitem_article,
+                parent,
+                false
+            )
+        ) {
 
         val card by lazy {
             itemView.findViewById<CardView>(com.androidnews.R.id.cardview_article)
