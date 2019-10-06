@@ -1,6 +1,6 @@
+
 # AndroidNews
 An Android App using AndroidX + MVVM + Dagger2 + Room + Retrofit + LiveData + Rx
-(This is a just a simple app I whipped up during the weekend. I don't have any future plan for it yet)
 
 ![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/1.png "Screen 1")
 ![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/2.png "Screen 2")
@@ -20,3 +20,6 @@ In this app, I attempted to use
 - LiveData for linking various layers and observing data changes
 - Rx for working outside the main thread
 - Timber for logging
+
+
+(This is a just a simple app I whipped up during the weekend. I don't have any future plan for it yet)
