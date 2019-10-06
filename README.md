@@ -1,5 +1,6 @@
 # AndroidNews
 An Android App using AndroidX + MVVM + Dagger2 + Room + Retrofit + LiveData + Rx
+(This is a just a simple app I whipped up during the weekend. I don't have any future plan for it yet)
 
 ![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/1.png "Screen 1")
 ![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/2.png "Screen 2")
