@@ -63,3 +63,7 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+.DS_Store
+app/src/androidTest/java/com/androidnews/repository/.DS_Store
+screencaps/.DS_Store
+app/src/androidTest/java/com/androidnews/repository/.DS_Store
