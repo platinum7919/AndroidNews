@@ -1,6 +1,9 @@
 # AndroidNews
 An Android App using AndroidX + MVVM + Dagger2 + Room + Retrofit + LiveData + Rx
 
+![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/1.png "Screen 1")
+![Alt text](https://github.com/platinum7919/AndroidNews/blob/master/screencaps/2.png "Screen 2")
+
 
 An Android application that shows a articles related to "TransferWise"
 - The content is from a free to use API from newsapi.org (listed in https://github.com/public-apis/public-apis)
