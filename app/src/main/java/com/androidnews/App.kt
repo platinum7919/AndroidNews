@@ -26,7 +26,7 @@ class App : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
         //app = this
-        //test again
+        //test again 1
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
