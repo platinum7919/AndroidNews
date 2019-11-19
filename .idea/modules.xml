@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidNews.iml" filepath="$PROJECT_DIR$/AndroidNews.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/AndroidNews.iml" filepath="$PROJECT_DIR$/.idea/AndroidNews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/AndroidNews-app.iml" filepath="$PROJECT_DIR$/app/AndroidNews-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GitHub-AndroidNews.iml" filepath="$PROJECT_DIR$/GitHub-AndroidNews.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

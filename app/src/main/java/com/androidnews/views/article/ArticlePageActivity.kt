@@ -9,13 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidnews.common.*
 import com.androidnews.data.Article
 import com.androidnews.data.ArticlePage
-import com.androidnews.viewmodel.ArticlePageViewModel
+import com.androidnews.views.customviews.ArticlePageViewModel
 import com.androidnews.viewmodel.ViewModelFactory
 import com.androidnews.views.EXTRA_ARTICLE_ID
 import com.androidnews.views.customviews.AsyncLayout
@@ -30,7 +31,7 @@ import javax.inject.Inject
 class ArticlePageActivity : BaseActivity() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
     /**

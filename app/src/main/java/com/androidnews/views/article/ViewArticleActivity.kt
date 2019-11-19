@@ -6,11 +6,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.androidnews.R
 import com.androidnews.common.*
 import com.androidnews.data.Article
-import com.androidnews.viewmodel.ArticleViewModel
 import com.androidnews.viewmodel.ViewModelFactory
 import com.androidnews.views.EXTRA_ARTICLE_ID
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,7 +21,7 @@ import javax.inject.Inject
  */
 class ViewArticleActivity : BaseActivity() {
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(ArticleViewModel::class.java)

@@ -1,14 +1,16 @@
-package com.androidnews.viewmodel
+package com.androidnews.views.customviews
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.androidnews.data.ArticlePage
 import com.androidnews.repository.NewsRepository
 import com.androidnews.repository.Result
+import com.androidnews.viewmodel.BaseViewModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ArticlePageViewModel constructor(app: Application, var newsRepository: NewsRepository) : BaseViewModel(app) {
+class ArticlePageViewModel  @Inject  constructor(app: Application, var newsRepository: NewsRepository) : BaseViewModel(app) {
 
     val articlePage: LiveData<Result<ArticlePage>> by lazy {
         newsRepository.articlePage

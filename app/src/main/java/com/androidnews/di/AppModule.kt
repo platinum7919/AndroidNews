@@ -2,11 +2,13 @@ package com.androidnews.di
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.androidnews.repository.db.AppDatabase
 import com.androidnews.repository.service.NewsService
 import com.androidnews.repository.service.ServerErrorInterceptor
 import com.androidnews.utils.Json
+import com.androidnews.viewmodel.ViewModelFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -19,7 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@Module
+@Module(subcomponents = [ViewModelSubComponent::class])
 class AppModule {
 
     @Provides
@@ -82,5 +84,13 @@ class AppModule {
         ).build()
     }
 
+
+    @Singleton
+    @Provides
+    fun provideViewModelFactory(
+        viewModelSubComponent: ViewModelSubComponent.Builder
+    ): ViewModelProvider.Factory {
+        return ViewModelFactory(viewModelSubComponent.build())
+    }
 
 }
